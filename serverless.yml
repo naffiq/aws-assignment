@@ -1,0 +1,90 @@
+service:
+  name: aws-assignment
+
+plugins:
+  # Add the serverless-webpack plugin for ts-loader
+  - serverless-webpack
+  # Add domain manager to hook everything to aws.naffiq.com
+  - serverless-domain-manager
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  environment:
+    DYNAMODB_MESSAGES_TABLE: ${self:service}-${opt:stage, self:provider.stage}-messages
+    DYNAMODB_SENTIMENT_TABLE: ${self:service}-${opt:stage, self:provider.stage}-sentiment
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_MESSAGES_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_SENTIMENT_TABLE}"
+
+functions:
+  webhook-verify:
+    handler: handler.webhookVerify
+    events:
+      - http:
+          method: get
+          path: bot
+  process-message:
+    handler: handler.processMessage
+    events:
+      - http:
+          method: post
+          path: bot
+
+  evaluate-sentiment:
+    handler: handler.evaluateSentiment
+    events:
+      - stream: arn:aws:dynamodb:us-east-1:086896053011:table/aws-assignment-dev-messages/stream/2018-10-29T21:32:34.047
+
+
+# DynamoDB for storing FB Messenger logs
+resources:
+  Resources:
+    MessagerLogTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_MESSAGES_TABLE}
+    EstimatedSentimentTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: senderId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: senderId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_SENTIMENT_TABLE}
+
+# My custom domain
+custom:
+  customDomain:
+    domainName: aws.naffiq.com
+    basePath: ''
+    stage: ${self:provider.stage}
+    createRoute53Record: true

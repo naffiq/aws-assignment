@@ -1,0 +1,30 @@
+{
+  "name": "aws-assignment",
+  "version": "1.0.0",
+  "description": "AWS Test assignment",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "invoke:webhookVerify": "VERIFY_TOKEN=123TOKEN serverless invoke local --function webhook-verify --path local/verifyData.json",
+    "invoke:processMessage": "serverless invoke local --function process-message --path local/processMessage.json",
+    "invoke:evaluateSentiment": "serverless invoke local --function evaluate-sentiment --path local/evaluateSentiment.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.1",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^8.0.57",
+    "@types/uuid": "^3.4.4",
+    "aws-sdk": "^2.344.0",
+    "serverless": "^1.32.0",
+    "serverless-domain-manager": "^2.6.5",
+    "serverless-webpack": "^5.1.1",
+    "source-map-support": "^0.5.6",
+    "ts-loader": "^4.2.0",
+    "typescript": "^2.9.2",
+    "uuid": "^3.3.2",
+    "webpack": "^4.5.0"
+  },
+  "author": "naffiq",
+  "license": "MIT"
+}

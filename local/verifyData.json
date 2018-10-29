@@ -1,0 +1,7 @@
+{
+  "queryStringParameters": {
+    "hub.mode": "subscribe",
+    "hub.verify_token": "123TOKEN",
+    "hub.challenge": "CHALLENGE_ACCEPTED"
+  }
+}

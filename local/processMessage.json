@@ -1,0 +1,3 @@
+{
+  "body": "{\"object\": \"page\",\"entry\": [{\"id\": \"253947202136500\",\"time\": 1540830548959,\"messaging\": [{\"sender\": {\"id\": \"2123933034284892\"},\"recipient\": {\"id\": \"253947202136500\"},\"timestamp\": 1540830548276,\"message\": {\"mid\": \"XLQka0u3tinP2LPtYiu6NwVGsme7emYQv4cYMvoFe_6YvCKI4F-H9TmNt-HpOqLqb6mcygeqXrdnEWxIDHkV7Q\",\"seq\": 4812,\"text\": \"How are you doing? When are you getting back home?\",\"nlp\": {\"entities\": {\"location\": [{\"suggested\": true,\"confidence\": 0.90754,\"value\": \"home\",\"type\": \"value\"}],\"sentiment\": [{\"confidence\": 0.82030964,\"value\": \"neutral\"}]}}}}]}]}"
+}

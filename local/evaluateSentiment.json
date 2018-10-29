@@ -1,0 +1,76 @@
+{
+  "Records": [
+      {
+          "eventID": "f54c8b4af536637302fc23e32805c3f2",
+          "eventName": "INSERT",
+          "eventVersion": "1.1",
+          "eventSource": "aws:dynamodb",
+          "awsRegion": "us-east-1",
+          "dynamodb": {
+              "ApproximateCreationDateTime": 1540849800,
+              "Keys": {
+                  "id": {
+                      "S": "ce11ce38-2394-41e3-a5b7-6491d642980b"
+                  }
+              },
+              "NewImage": {
+                  "senderId": {
+                      "S": "2123933034284892"
+                  },
+                  "nlp": {
+                      "M": {
+                          "entities": {
+                              "M": {
+                                  "sentiment": {
+                                      "L": [
+                                          {
+                                              "M": {
+                                                  "confidence": {
+                                                      "N": "0.82030964"
+                                                  },
+                                                  "value": {
+                                                      "S": "neutral"
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  },
+                                  "location": {
+                                      "L": [
+                                          {
+                                              "M": {
+                                                  "suggested": {
+                                                      "BOOL": true
+                                                  },
+                                                  "confidence": {
+                                                      "N": "0.90754"
+                                                  },
+                                                  "type": {
+                                                      "S": "value"
+                                                  },
+                                                  "value": {
+                                                      "S": "home"
+                                                  }
+                                              }
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  "id": {
+                      "S": "ce11ce38-2394-41e3-a5b7-6491d642980b"
+                  },
+                  "text": {
+                      "S": "How are you doing? When are you getting back home?"
+                  }
+              },
+              "SequenceNumber": "23000000000024516936582",
+              "SizeBytes": 280,
+              "StreamViewType": "NEW_IMAGE"
+          },
+          "eventSourceARN": "arn:aws:dynamodb:us-east-1:086896053011:table/aws-assignment-dev-messages/stream/2018-10-29T21:32:34.047"
+      }
+  ]
+}
