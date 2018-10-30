@@ -20,6 +20,7 @@ provider:
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_MESSAGES_TABLE}"
     - Effect: Allow
       Action:
+        - dynamodb:List
         - dynamodb:Query
         - dynamodb:PutItem
         - dynamodb:UpdateItem
@@ -43,6 +44,13 @@ functions:
     handler: handler.evaluateSentiment
     events:
       - stream: arn:aws:dynamodb:us-east-1:086896053011:table/aws-assignment-dev-messages/stream/2018-10-29T21:32:34.047
+
+  get-sentiment:
+    handler: handler.getSentiment
+    events:
+      - http:
+          method: get
+          path: sentiment
 
 
 # DynamoDB for storing FB Messenger logs

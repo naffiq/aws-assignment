@@ -13,9 +13,8 @@ interface ISentiment {
 const storeSentiment = async (sentiment: ISentiment, cb) => {
   console.log('[Sentimator] — Store sentiment initiated to table ', DYNAMODB_SENTIMENT_TABLE, sentiment);
   
-  const documentClient = new DynamoDB.DocumentClient();
-
   try {
+    const documentClient = new DynamoDB.DocumentClient();
     const senderData = await documentClient.query({
       TableName: DYNAMODB_SENTIMENT_TABLE,
       KeyConditionExpression: "senderId = :v1", 
@@ -49,13 +48,16 @@ const storeSentiment = async (sentiment: ISentiment, cb) => {
         TableName: DYNAMODB_SENTIMENT_TABLE,
         Item: {
           senderId: sentiment.senderId,
+          negative: 0,
+          positive: 0,
+          neutral: 0,
           [sentiment.value]: sentiment.confidence
         }
       }).promise();
     }
 
 
-    // console.log('[Sentimator] — Store sentiment executed, waiting for result');
+    console.log('[Sentimator] — Store sentiment executed');
   } catch (err) {
     console.log('[Sentimator] — Store failed', err);
   }

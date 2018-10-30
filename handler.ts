@@ -4,6 +4,7 @@ import {v4 as uuid} from 'uuid';
 import * as bot from './src/bot';
 import storeMessage from './src/db/storeMessage';
 import storeSentiment from './src/db/storeSentiment';
+import { retrieveSentiment } from './src/db/retrieveSentiment';
 
 export const processMessage: Handler = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
   const successCB = () => {
@@ -58,6 +59,7 @@ export const webhookVerify: Handler = async (event: APIGatewayEvent, context: Co
 }
 
 export const evaluateSentiment: Handler = async (event: DynamoDBStreamEvent, context: Context, cb: Callback) => {
+  console.log(JSON.stringify(event));
   if (event.Records) {
     const { NewImage } = event.Records[0].dynamodb;
 
@@ -69,11 +71,17 @@ export const evaluateSentiment: Handler = async (event: DynamoDBStreamEvent, con
       const confidence = parseFloat(sentiment.confidence.N);
       const value = sentiment.value.S;
 
-      storeSentiment({
+      await storeSentiment({
         senderId,
         confidence,
         value
       }, cb)
     }
   }
+}
+
+export const getSentiment: Handler = async (event: APIGatewayEvent, context: Context, cb: Callback) => {
+  const senderId = event.queryStringParameters ? event.queryStringParameters['senderId'] : null;
+
+  cb(null, await retrieveSentiment(senderId))
 }
